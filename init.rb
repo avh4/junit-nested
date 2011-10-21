@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'liquid'
 require 'yaml'
+require 'fileutils'
 
 # Open the properties file
 properties_file = File.open "properties.yaml"
@@ -19,7 +20,7 @@ end
 properties = YAML::load(properties_yaml)
 
 # process the files
-files = [ "pom.xml" ]
+files = [ "pom.xml", ".project" ]
 files.each do |file|
   puts "Processing #{file}..."
   # read the file
@@ -28,6 +29,18 @@ files.each do |file|
   rendering = Liquid::Template.parse(template).render properties
   # write the file
   File.open(file, "w").write(rendering)
+end
+
+# Create empty directories
+package_path = "#{properties['package']}.#{properties['project']}".tr('.', '/').tr('-', '')
+dirs = [
+  "src/main/java/#{package_path}", "src/main/resources",
+  "src/test/java/#{package_path}", "src/test/resources",
+  "src/features/java/#{package_path}", "src/features/stories"
+  ]
+dirs.each do |dir|
+  puts "Creating #{dir}..."
+  FileUtils.mkdir_p dir
 end
 
 puts "Successful.  Removing init.rb..."
