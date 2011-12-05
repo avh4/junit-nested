@@ -43,7 +43,11 @@ dirs.each do |dir|
   FileUtils.mkdir_p dir
 end
 
-puts "Successful.  Removing init.rb..."
-File.delete "init.rb"
+puts "Successful.  Cleaning up..."
+files_to_delete = [ "init.rb", "README" ]
+files_to_delete.each do |file|
+  puts "Removing #{file}..."
+  File.delete file
+end
 
 puts "Done!"
