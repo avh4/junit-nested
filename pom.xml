@@ -10,14 +10,14 @@
     </repository>
   </repositories>
 
-  <groupId>{{ package }}</groupId>
-  <artifactId>{{ project }}</artifactId>
+  <groupId>net.avh4.jrspec</groupId>
+  <artifactId>jrspec</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>{{ project }}</name>
+  <name>jrspec</name>
   <description></description>
-  <url>{{ project_url }}</url>
+  <url>https://github.com/avh4/jrspec</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -49,8 +49,8 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>{{ package }}.Main</mainClass>
-              <packageName>{{ package }}</packageName>
+              <mainClass>net.avh4.jrspec.Main</mainClass>
+              <packageName>net.avh4.jrspec</packageName>
             </manifest>
           </archive>
         </configuration>

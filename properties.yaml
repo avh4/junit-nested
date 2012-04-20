@@ -1,5 +1,5 @@
 ---
-package : com.example
-project : my-project
-description : ~
-project_url : ~
+package : net.avh4.jrspec
+project : jrspec
+description : JrSpec - Testing tool for Java
+project_url : https://github.com/avh4/jrspec
