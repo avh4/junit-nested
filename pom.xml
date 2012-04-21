@@ -84,23 +84,6 @@
             <artifactId>hamcrest-integration</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>1.0.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-picocontainer</artifactId>
-            <version>1.0.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.avh4.util</groupId>
-            <artifactId>imagecomparison</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -129,11 +112,6 @@
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest-integration</artifactId>
                 <version>1.2.1</version>
-            </dependency>
-            <dependency>
-                <groupId>net.avh4.util</groupId>
-                <artifactId>imagecomparison</artifactId>
-                <version>0.0.6</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
