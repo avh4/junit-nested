@@ -20,4 +20,31 @@ public class InnerSpecMethodRunnerTest extends RunnerTestBase {
                 hasDisplayName("test1_1")
         );
     }
+
+    @Test
+    public void shouldCallInnerBeforeMethods() throws Exception {
+        runner.run(notifier);
+
+        assertSuccessfulTestRunForDescription(
+                hasDisplayName("passesUnlessInnerBeforesWereNotCalled")
+        );
+    }
+
+    @Test
+    public void shouldCallOuterClassBeforeMethods() throws Exception {
+        runner.run(notifier);
+
+        assertSuccessfulTestRunForDescription(
+                hasDisplayName("passesUnlessOuterBeforesWereNotCalled")
+        );
+    }
+
+    @Test
+    public void shouldCallOuterClassBeforeMethodsBeforeInnerClassBeforeMethods() throws Exception {
+        runner.run(notifier);
+
+        assertSuccessfulTestRunForDescription(
+                hasDisplayName("passesUnlessInnerBeforesWereCalledBeforeOuterBefores")
+        );
+    }
 }

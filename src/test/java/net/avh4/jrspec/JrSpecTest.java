@@ -3,12 +3,8 @@ package net.avh4.jrspec;
 import net.avh4.jrspec.test.support.TestForTest;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.notification.Failure;
-import org.mockito.Mockito;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 public class JrSpecTest extends RunnerTestBase {
 
@@ -64,7 +60,6 @@ public class JrSpecTest extends RunnerTestBase {
                 hasDisplayName("test1_1"),
                 hasDisplayName("test2_1")
         );
-        verify(notifier, never()).fireTestFailure((Failure)Mockito.any());
     }
 
 }
