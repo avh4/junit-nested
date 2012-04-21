@@ -18,7 +18,7 @@ import static org.junit.matchers.JUnitMatchers.hasItem;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.internal.verification.VerificationModeFactory.atLeast;
 
-public class RunnerTestBase {
+public abstract class RunnerTestBase {
     protected Runner runner;
     protected Description description;
     protected RunNotifier notifier;
@@ -29,27 +29,29 @@ public class RunnerTestBase {
         notifier = Mockito.mock(RunNotifier.class);
     }
 
-    protected void assertSuccessfulTestRunForDescription(Matcher<Description>... descriptionMatchers) {
-        final Matcher<Iterable<Description>> hasTestSuite = hasItems(descriptionMatchers);
-        assertThat(getFireTestStartedParams(), hasTestSuite);
-        assertThat(getFireTestFinishedParams(), hasTestSuite);
-        final Matcher<Description> matchingAnyOfTheDescriptionMatchers = anyOf(descriptionMatchers);
-        assertThat(getFireTestFailureParams(), everyItem(not(hasDescription(matchingAnyOfTheDescriptionMatchers))));
+    protected void assertSuccessfulTestRunForDescription(Matcher<Description>... requiredTests) {
+        final Matcher<Iterable<Description>> includesAllRequiredTests = hasItems(requiredTests);
+        final Matcher<Description> matchingAnyOfTheRequiredTests = anyOf(requiredTests);
+        final Matcher<Iterable<Failure>> excludesAllRequiredTests
+                = everyItem(not(hasDescription(matchingAnyOfTheRequiredTests)));
+        assertThat(startedTests(), includesAllRequiredTests);
+        assertThat(finishedTests(), includesAllRequiredTests);
+        assertThat(testFailures(), excludesAllRequiredTests);
     }
 
-    private List<Description> getFireTestStartedParams() {
+    private List<Description> startedTests() {
         final ArgumentCaptor<Description> captor = ArgumentCaptor.forClass(Description.class);
         Mockito.verify(notifier, atLeastOnce()).fireTestStarted(captor.capture());
         return captor.getAllValues();
     }
 
-    private List<Description> getFireTestFinishedParams() {
+    private List<Description> finishedTests() {
         final ArgumentCaptor<Description> captor = ArgumentCaptor.forClass(Description.class);
         Mockito.verify(notifier, atLeastOnce()).fireTestFinished(captor.capture());
         return captor.getAllValues();
     }
 
-    private List<Failure> getFireTestFailureParams() {
+    private List<Failure> testFailures() {
         final ArgumentCaptor<Failure> captor = ArgumentCaptor.forClass(Failure.class);
         Mockito.verify(notifier, atLeast(0)).fireTestFailure(captor.capture());
         return captor.getAllValues();
