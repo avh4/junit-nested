@@ -2,6 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
     <groupId>net.avh4.jrspec</groupId>
     <artifactId>jrspec</artifactId>
@@ -11,6 +16,28 @@
     <name>jrspec</name>
     <description>JrSpec - Testing tool for Java</description>
     <url>https://github.com/avh4/jrspec</url>
+    <licenses>
+        <license>
+            <name>The GNU General Public License v3.0</name>
+            <url>http://www.gnu.org/copyleft/gpl.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/avh4/jrspec.git</connection>
+        <developerConnection>scm:git:git@github.com:avh4/jrspec.git</developerConnection>
+        <url>https://github.com/avh4/jrspec</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>avh4</id>
+            <name>Aaron VonderHaar</name>
+            <email>gruen0aermel@gmail.com</email>
+        </developer>
+    </developers>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
