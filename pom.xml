@@ -9,7 +9,7 @@
 
     <groupId>net.avh4.jrspec</groupId>
     <artifactId>jrspec</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <packaging>jar</packaging>
 
     <name>jrspec</name>
