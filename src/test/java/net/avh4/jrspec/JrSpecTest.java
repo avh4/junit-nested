@@ -16,21 +16,25 @@ public class JrSpecTest extends RunnerTestBase {
 
     @Test
     public void shouldDescribeSuite() throws Exception {
-        assertThat(description, hasDisplayName("net.avh4.jrspec.test.support.TestForTest"));
+        assertThat(description,
+                hasDisplayName("net.avh4.jrspec.test.support.TestForTest"));
     }
 
     @Test
     public void shouldDescribeFirstInnerSuite() throws Exception {
-        assertThat(description, hasChild(hasDisplayName("net.avh4.jrspec.test.support.TestForTest$Inner1")));
+        assertThat(description, hasChild(hasDisplayName(
+                "net.avh4.jrspec.test.support.TestForTest$Inner1")));
     }
 
     @Test
     public void shouldDescribeManyInnerSuites() throws Exception {
-        assertThat(description, hasChild(hasDisplayName("net.avh4.jrspec.test.support.TestForTest$Inner2")));
+        assertThat(description, hasChild(hasDisplayName(
+                "net.avh4.jrspec.test.support.TestForTest$Inner2")));
     }
 
     @Test
-    public void shouldDescribeFirstTestMethodInFirstInnerSuite() throws Exception {
+    public void shouldDescribeFirstTestMethodInFirstInnerSuite()
+            throws Exception {
         assertThat(description, hasChild(hasChild(hasDisplayName("test1_1"))));
     }
 
@@ -46,20 +50,18 @@ public class JrSpecTest extends RunnerTestBase {
     public void shouldRunInnerSuites() throws Exception {
         runner.run(notifier);
 
-        assertSuccessfulTestRunForDescription(
-                hasDisplayName("net.avh4.jrspec.test.support.TestForTest$Inner1"),
-                hasDisplayName("net.avh4.jrspec.test.support.TestForTest$Inner2")
-        );
+        assertSuccessfulTestRunForDescription(hasDisplayName(
+                "net.avh4.jrspec.test.support.TestForTest$Inner1"),
+                hasDisplayName(
+                        "net.avh4.jrspec.test.support.TestForTest$Inner2"));
     }
 
     @Test
     public void shouldRunInnerSuiteTestMethods() throws Exception {
         runner.run(notifier);
 
-        assertSuccessfulTestRunForDescription(
-                hasDisplayName("test1_1"),
-                hasDisplayName("test2_1")
-        );
+        assertSuccessfulTestRunForDescription(hasDisplayName("test1_1"),
+                hasDisplayName("test2_1"));
     }
 
 }

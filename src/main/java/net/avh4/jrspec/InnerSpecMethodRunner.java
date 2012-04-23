@@ -19,7 +19,8 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
     private final TestClass outerTestClass;
     private Object outerInstance;
 
-    public InnerSpecMethodRunner(Class<?> testClass, Class<?> outerClass) throws InitializationError {
+    public InnerSpecMethodRunner(Class<?> testClass, Class<?> outerClass)
+            throws InitializationError {
         super(testClass);
         outerTestClass = new TestClass(outerClass);
     }
@@ -40,8 +41,11 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
         return constructors[0].newInstance(outerClassInstance);
     }
 
-    private Object createOuterClass() throws InvocationTargetException, IllegalAccessException, InstantiationException {
-        final Constructor<?>[] constructors = outerTestClass.getJavaClass().getConstructors();
+    private Object createOuterClass()
+            throws InvocationTargetException, IllegalAccessException,
+            InstantiationException {
+        final Constructor<?>[] constructors = outerTestClass.getJavaClass()
+                .getConstructors();
         Assert.assertEquals(1, constructors.length);
         return constructors[0].newInstance();
     }
@@ -54,12 +58,13 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
     @Override
     protected Statement withBefores(FrameworkMethod method, Object target,
                                     Statement statement) {
-        final Statement innerBefores = super.withBefores(method, target, statement);
-        final List<FrameworkMethod> outerBefores = outerTestClass.getAnnotatedMethods(
-                Before.class);
+        final Statement innerBefores = super
+                .withBefores(method, target, statement);
+        final List<FrameworkMethod> outerBefores = outerTestClass
+                .getAnnotatedMethods(Before.class);
         // Warning: this is not quite correct, and is not threadsafe.  We should really be making
         // sure that the outerInstance corresponds to this instance (target) of the test class.
-        return outerBefores.isEmpty() ? innerBefores : new RunBefores(innerBefores,
-                outerBefores, outerInstance);
+        return outerBefores.isEmpty() ? innerBefores : new RunBefores(
+                innerBefores, outerBefores, outerInstance);
     }
 }

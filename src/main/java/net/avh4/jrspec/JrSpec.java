@@ -25,8 +25,10 @@ public class JrSpec extends Runner {
 
     @Override
     public Description getDescription() {
-        suiteDescription = Description.createSuiteDescription(testClass.getName());
-        for (Description childDescription : innerClassRunner.getDescription().getChildren()) {
+        suiteDescription = Description
+                .createSuiteDescription(testClass.getName());
+        for (Description childDescription : innerClassRunner.getDescription()
+                .getChildren()) {
             suiteDescription.addChild(childDescription);
         }
         return suiteDescription;
@@ -78,7 +80,8 @@ public class JrSpec extends Runner {
     private static class MethodParentRunner extends ParentRunner<Method> {
         private final Class<?> testClass;
 
-        public MethodParentRunner(Class<?> testClass) throws InitializationError {
+        public MethodParentRunner(Class<?> testClass)
+                throws InitializationError {
             super(testClass);
             this.testClass = testClass;
         }
@@ -90,7 +93,8 @@ public class JrSpec extends Runner {
 
         @Override
         protected Description describeChild(Method child) {
-            return Description.createTestDescription(testClass, child.getName());
+            return Description
+                    .createTestDescription(testClass, child.getName());
         }
 
         @Override

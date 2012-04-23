@@ -29,37 +29,47 @@ public abstract class RunnerTestBase {
         notifier = Mockito.mock(RunNotifier.class);
     }
 
-    protected void assertSuccessfulTestRunForDescription(Matcher<Description>... requiredTests) {
-        final Matcher<Iterable<Description>> includesAllRequiredTests = hasItems(requiredTests);
-        final Matcher<Description> matchingAnyOfTheRequiredTests = anyOf(requiredTests);
-        final Matcher<Iterable<Failure>> excludesAllRequiredTests
-                = everyItem(not(hasDescription(matchingAnyOfTheRequiredTests)));
+    protected void assertSuccessfulTestRunForDescription(
+            Matcher<Description>... requiredTests) {
+        final Matcher<Iterable<Description>> includesAllRequiredTests = hasItems(
+                requiredTests);
+        final Matcher<Description> matchingAnyOfTheRequiredTests = anyOf(
+                requiredTests);
+        final Matcher<Iterable<Failure>> excludesAllRequiredTests = everyItem(
+                not(hasDescription(matchingAnyOfTheRequiredTests)));
         assertThat(startedTests(), includesAllRequiredTests);
         assertThat(finishedTests(), includesAllRequiredTests);
         assertThat(testFailures(), excludesAllRequiredTests);
     }
 
     private List<Description> startedTests() {
-        final ArgumentCaptor<Description> captor = ArgumentCaptor.forClass(Description.class);
-        Mockito.verify(notifier, atLeastOnce()).fireTestStarted(captor.capture());
+        final ArgumentCaptor<Description> captor = ArgumentCaptor
+                .forClass(Description.class);
+        Mockito.verify(notifier, atLeastOnce())
+                .fireTestStarted(captor.capture());
         return captor.getAllValues();
     }
 
     private List<Description> finishedTests() {
-        final ArgumentCaptor<Description> captor = ArgumentCaptor.forClass(Description.class);
-        Mockito.verify(notifier, atLeastOnce()).fireTestFinished(captor.capture());
+        final ArgumentCaptor<Description> captor = ArgumentCaptor
+                .forClass(Description.class);
+        Mockito.verify(notifier, atLeastOnce())
+                .fireTestFinished(captor.capture());
         return captor.getAllValues();
     }
 
     private List<Failure> testFailures() {
-        final ArgumentCaptor<Failure> captor = ArgumentCaptor.forClass(Failure.class);
+        final ArgumentCaptor<Failure> captor = ArgumentCaptor
+                .forClass(Failure.class);
         Mockito.verify(notifier, atLeast(0)).fireTestFailure(captor.capture());
         return captor.getAllValues();
     }
 
-    protected Matcher<Description> hasChild(final Matcher<Description> childMatcher) {
+    protected Matcher<Description> hasChild(
+            final Matcher<Description> childMatcher) {
         return new TypeSafeMatcher<Description>() {
-            public Matcher<Iterable<Description>> childrenMatcher = hasItem(childMatcher);
+            public Matcher<Iterable<Description>> childrenMatcher = hasItem(
+                    childMatcher);
 
             @Override
             protected boolean matchesSafely(Description item) {
@@ -73,11 +83,13 @@ public abstract class RunnerTestBase {
             }
 
             @Override
-            protected void describeMismatchSafely(Description item, org.hamcrest.Description mismatchDescription) {
+            protected void describeMismatchSafely(Description item,
+                                                  org.hamcrest.Description mismatchDescription) {
                 appendToDescription(mismatchDescription, item);
             }
 
-            private void appendToDescription(org.hamcrest.Description description, Description item) {
+            private void appendToDescription(
+                    org.hamcrest.Description description, Description item) {
                 description.appendText(item.getDisplayName());
                 description.appendText("{");
                 for (Description child : item.getChildren()) {
@@ -92,7 +104,8 @@ public abstract class RunnerTestBase {
         return new TypeSafeMatcher<Description>() {
             @Override
             protected boolean matchesSafely(Description item) {
-                return displayName.equals(item.getDisplayName().replaceAll("\\(.*\\)$", ""));
+                return displayName.equals(item.getDisplayName()
+                        .replaceAll("\\(.*\\)$", ""));
             }
 
             @Override
@@ -102,16 +115,19 @@ public abstract class RunnerTestBase {
             }
 
             @Override
-            protected void describeMismatchSafely(Description item, org.hamcrest.Description mismatchDescription) {
+            protected void describeMismatchSafely(Description item,
+                                                  org.hamcrest.Description mismatchDescription) {
                 mismatchDescription.appendText("displayName was ");
                 mismatchDescription.appendValue(item.getDisplayName());
             }
         };
     }
 
-    private Matcher<Failure> hasDescription(final Matcher<Description> descriptionMatcher) {
+    private Matcher<Failure> hasDescription(
+            final Matcher<Description> descriptionMatcher) {
         return new TypeSafeMatcher<Failure>() {
-            public Matcher<Description> descriptionFieldMatcher = is(descriptionMatcher);
+            public Matcher<Description> descriptionFieldMatcher = is(
+                    descriptionMatcher);
 
             @Override
             protected boolean matchesSafely(Failure item) {

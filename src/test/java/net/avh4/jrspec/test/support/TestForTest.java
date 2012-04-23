@@ -40,7 +40,8 @@ public class TestForTest {
         }
 
         @Test
-        public void passesUnlessInnerBeforesWereCalledBeforeOuterBefores() throws Exception {
+        public void passesUnlessInnerBeforesWereCalledBeforeOuterBefores()
+                throws Exception {
             assertTrue(valueOf_outerSetupWasCalled_whenInnerSetupWasCalled);
         }
     }
