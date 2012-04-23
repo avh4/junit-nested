@@ -46,4 +46,17 @@ public class JrSpecTest extends RunnerTestBase {
                 hasDisplayName("test2_1"));
     }
 
+    @Test
+    public void shouldDescribeOuterTestMethods() throws Exception {
+        assertThat(description, hasChild(hasDisplayName("test_1")));
+    }
+
+    @Test
+    public void shouldRunOuterTestMethods() throws Exception {
+        runner.run(notifier);
+
+        assertSuccessfulTestRunForDescription(
+                hasDisplayName("test_1")
+        );
+    }
 }

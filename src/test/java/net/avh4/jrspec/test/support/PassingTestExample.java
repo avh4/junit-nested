@@ -53,4 +53,9 @@ public class PassingTestExample {
             // pass
         }
     }
+
+    @Test
+    public void test_1() throws Exception {
+        //pass
+    }
 }

@@ -3,31 +3,26 @@ package net.avh4.jrspec;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
-import org.junit.runners.model.TestClass;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
 public class JrSpec extends Runner {
-    private final TestClass testClass;
-    private final ParentRunner<Class<?>> innerClassRunner;
-    private Description suiteDescription;
-    //    private final ParentRunner<Method> methodRunner;
+    private final BlockJUnit4ClassRunner outerClassRunner;
+    private final ParentRunner<Class<?>> innerClassesRunner;
 
     public JrSpec(final Class<?> testClass) throws InitializationError {
-        this.testClass = new TestClass(testClass);
-        innerClassRunner = new InnerClassRunner(testClass);
-//        methodRunner = new MethodParentRunner(testClass);
+        outerClassRunner = new BlockJUnit4ClassRunner(testClass);
+        innerClassesRunner = new InnerClassesRunner(testClass);
     }
 
     @Override
     public Description getDescription() {
-        suiteDescription = Description
-                .createSuiteDescription(testClass.getName());
-        for (Description childDescription : innerClassRunner.getDescription()
+        Description suiteDescription = outerClassRunner.getDescription();
+        for (Description childDescription : innerClassesRunner.getDescription()
                 .getChildren()) {
             suiteDescription.addChild(childDescription);
         }
@@ -36,13 +31,15 @@ public class JrSpec extends Runner {
 
     @Override
     public void run(RunNotifier notifier) {
-        innerClassRunner.run(notifier);
+        outerClassRunner.run(notifier);
+        innerClassesRunner.run(notifier);
     }
 
-    private static class InnerClassRunner extends ParentRunner<Class<?>> {
+    private static class InnerClassesRunner extends ParentRunner<Class<?>> {
         private final Class<?> testClass;
 
-        public InnerClassRunner(Class<?> testClass) throws InitializationError {
+        public InnerClassesRunner(Class<?> testClass)
+                throws InitializationError {
             super(testClass);
             this.testClass = testClass;
         }
@@ -68,32 +65,6 @@ public class JrSpec extends Runner {
             } catch (InitializationError initializationError) {
                 throw new RuntimeException(initializationError);
             }
-        }
-
-    }
-
-    private static class MethodParentRunner extends ParentRunner<Method> {
-        private final Class<?> testClass;
-
-        public MethodParentRunner(Class<?> testClass)
-                throws InitializationError {
-            super(testClass);
-            this.testClass = testClass;
-        }
-
-        @Override
-        protected List<Method> getChildren() {
-            return Arrays.asList(testClass.getDeclaredMethods());
-        }
-
-        @Override
-        protected Description describeChild(Method child) {
-            return Description
-                    .createTestDescription(testClass, child.getName());
-        }
-
-        @Override
-        protected void runChild(Method child, RunNotifier notifier) {
         }
     }
 }

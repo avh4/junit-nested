@@ -20,6 +20,11 @@ public class QueueTest {
         subject = new PriorityQueue<String>();
     }
 
+    @Test
+    public void shouldStartEmpty() throws Exception {
+        assertThat(subject.isEmpty(), is(true));
+    }
+
     public class WhenEmpty {
         @Before
         public void setup() throws Exception {
