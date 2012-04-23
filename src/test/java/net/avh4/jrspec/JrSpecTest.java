@@ -1,6 +1,7 @@
 package net.avh4.jrspec;
 
 import net.avh4.jrspec.test.support.PassingTestExample;
+import net.avh4.jrspec.test.support.PassingTestExampleWithNoOuterLevelTestMethods;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,8 +56,29 @@ public class JrSpecTest extends RunnerTestBase {
     public void shouldRunOuterTestMethods() throws Exception {
         runner.run(notifier);
 
-        assertSuccessfulTestRunForDescription(
-                hasDisplayName("test_1")
-        );
+        assertSuccessfulTestRunForDescription(hasDisplayName("test_1"));
+    }
+
+    @Test
+    public void shouldRunInnerSuitesWhenNoOuterTestMethodsExist()
+            throws Exception {
+        runner = new JrSpec(PassingTestExampleWithNoOuterLevelTestMethods
+                .class);
+        runner.run(notifier);
+
+        assertSuccessfulTestRunForDescription(hasDisplayName("test1_1"),
+                hasDisplayName("test2_1"));
+    }
+
+    @Test
+    public void shouldDescribeSelfWhenNoOuterTestMethodsExist()
+            throws Exception {
+        runner = new JrSpec(PassingTestExampleWithNoOuterLevelTestMethods
+                .class);
+        runner.run(notifier);
+        description = runner.getDescription();
+
+        assertThat(description, hasDisplayName(
+                PassingTestExampleWithNoOuterLevelTestMethods.class.getName()));
     }
 }

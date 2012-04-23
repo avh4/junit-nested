@@ -13,15 +13,28 @@ import java.util.List;
 public class JrSpec extends Runner {
     private final BlockJUnit4ClassRunner outerClassRunner;
     private final ParentRunner<Class<?>> innerClassesRunner;
+    private final Class<?> testClass;
 
     public JrSpec(final Class<?> testClass) throws InitializationError {
-        outerClassRunner = new BlockJUnit4ClassRunner(testClass);
+        BlockJUnit4ClassRunner outerClassRunner;
+        try {
+            outerClassRunner = new BlockJUnit4ClassRunner(testClass);
+        } catch (Exception e) {
+            outerClassRunner = null;
+        }
+        this.outerClassRunner = outerClassRunner;
         innerClassesRunner = new InnerClassesRunner(testClass);
+        this.testClass = testClass;
     }
 
     @Override
     public Description getDescription() {
-        Description suiteDescription = outerClassRunner.getDescription();
+        Description suiteDescription;
+        if (outerClassRunner != null) {
+        suiteDescription = outerClassRunner.getDescription();
+        } else {
+            suiteDescription = Description.createSuiteDescription(testClass);
+        }
         for (Description childDescription : innerClassesRunner.getDescription()
                 .getChildren()) {
             suiteDescription.addChild(childDescription);
@@ -31,7 +44,9 @@ public class JrSpec extends Runner {
 
     @Override
     public void run(RunNotifier notifier) {
-        outerClassRunner.run(notifier);
+        if (outerClassRunner != null) {
+            outerClassRunner.run(notifier);
+        }
         innerClassesRunner.run(notifier);
     }
 
