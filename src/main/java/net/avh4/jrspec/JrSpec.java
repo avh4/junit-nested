@@ -36,9 +36,7 @@ public class JrSpec extends Runner {
 
     @Override
     public void run(RunNotifier notifier) {
-        notifier.fireTestStarted(suiteDescription);
         innerClassRunner.run(notifier);
-        notifier.fireTestFinished(suiteDescription);
     }
 
     private static class InnerClassRunner extends ParentRunner<Class<?>> {
@@ -61,10 +59,7 @@ public class JrSpec extends Runner {
 
         @Override
         protected void runChild(Class<?> child, RunNotifier notifier) {
-            final Description childDescription = describeChild(child);
-            notifier.fireTestStarted(childDescription);
             createRunnerForChild(child).run(notifier);
-            notifier.fireTestFinished(childDescription);
         }
 
         private InnerSpecMethodRunner createRunnerForChild(Class<?> child) {

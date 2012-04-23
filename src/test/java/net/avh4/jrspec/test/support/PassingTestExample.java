@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
 
-public class TestForTest {
+public class PassingTestExample {
     private boolean outerSetupWasCalled;
 
     @Before

@@ -1,15 +1,22 @@
 package net.avh4.jrspec;
 
-import net.avh4.jrspec.test.support.TestForTest;
+import net.avh4.jrspec.test.support.FailingTestExample;
+import net.avh4.jrspec.test.support.PassingTestExample;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.Runner;
 
 public class InnerSpecMethodRunnerTest extends RunnerTestBase {
 
+    private Runner runnerWithFailingTestExample;
+
     @Before
     public void setup() throws Exception {
-        runner = new InnerSpecMethodRunner(TestForTest.Inner1.class,
-                TestForTest.class);
+        runner = new InnerSpecMethodRunner(PassingTestExample.Inner1.class,
+                PassingTestExample.class);
+        runnerWithFailingTestExample =
+                new InnerSpecMethodRunner(FailingTestExample.Inner1.class,
+                        FailingTestExample.class);
         super.setup();
     }
 

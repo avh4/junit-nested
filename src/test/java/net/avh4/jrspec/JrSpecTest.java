@@ -1,6 +1,6 @@
 package net.avh4.jrspec;
 
-import net.avh4.jrspec.test.support.TestForTest;
+import net.avh4.jrspec.test.support.PassingTestExample;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,50 +10,32 @@ public class JrSpecTest extends RunnerTestBase {
 
     @Before
     public void setup() throws Exception {
-        runner = new JrSpec(TestForTest.class);
+        runner = new JrSpec(PassingTestExample.class);
         super.setup();
     }
 
     @Test
     public void shouldDescribeSuite() throws Exception {
         assertThat(description,
-                hasDisplayName("net.avh4.jrspec.test.support.TestForTest"));
+                hasDisplayName(PassingTestExample.class.getName()));
     }
 
     @Test
     public void shouldDescribeFirstInnerSuite() throws Exception {
-        assertThat(description, hasChild(hasDisplayName(
-                "net.avh4.jrspec.test.support.TestForTest$Inner1")));
+        assertThat(description, hasChild(
+                hasDisplayName(PassingTestExample.Inner1.class.getName())));
     }
 
     @Test
     public void shouldDescribeManyInnerSuites() throws Exception {
-        assertThat(description, hasChild(hasDisplayName(
-                "net.avh4.jrspec.test.support.TestForTest$Inner2")));
+        assertThat(description, hasChild(
+                hasDisplayName(PassingTestExample.Inner2.class.getName())));
     }
 
     @Test
     public void shouldDescribeFirstTestMethodInFirstInnerSuite()
             throws Exception {
         assertThat(description, hasChild(hasChild(hasDisplayName("test1_1"))));
-    }
-
-    @Test
-    public void shouldRunSuite() throws Exception {
-        runner.run(notifier);
-
-        assertSuccessfulTestRunForDescription(
-                hasDisplayName("net.avh4.jrspec.test.support.TestForTest"));
-    }
-
-    @Test
-    public void shouldRunInnerSuites() throws Exception {
-        runner.run(notifier);
-
-        assertSuccessfulTestRunForDescription(hasDisplayName(
-                "net.avh4.jrspec.test.support.TestForTest$Inner1"),
-                hasDisplayName(
-                        "net.avh4.jrspec.test.support.TestForTest$Inner2"));
     }
 
     @Test
