@@ -9,7 +9,7 @@
 
     <groupId>net.avh4.test</groupId>
     <artifactId>junit-nested</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>junit-nested</name>
