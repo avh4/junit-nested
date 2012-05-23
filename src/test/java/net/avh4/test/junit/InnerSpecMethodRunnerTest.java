@@ -1,7 +1,7 @@
-package net.avh4.jrspec;
+package net.avh4.test.junit;
 
-import net.avh4.jrspec.test.support.FailingTestExample;
-import net.avh4.jrspec.test.support.PassingTestExample;
+import net.avh4.test.junit.test.support.FailingTestExample;
+import net.avh4.test.junit.test.support.PassingTestExample;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.Runner;

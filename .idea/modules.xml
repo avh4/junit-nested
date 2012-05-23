@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/jrspec.iml" filepath="$PROJECT_DIR$/jrspec.iml" />
+      <module fileurl="file://$PROJECT_DIR$/junit-nested.iml" filepath="$PROJECT_DIR$/junit-nested.iml" />
     </modules>
   </component>
 </project>

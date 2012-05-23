@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="jrspec-test" type="JUnit" factoryName="JUnit">
+  <configuration default="false" name="junit-nested-test" type="JUnit" factoryName="JUnit">
     <extension name="coverage" enabled="false" merge="false" />
-    <module name="jrspec" />
+    <module name="junit-nested" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" value="" />
     <option name="PACKAGE_NAME" value="" />

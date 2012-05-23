@@ -1,4 +1,4 @@
-package net.avh4.jrspec;
+package net.avh4.test.junit;
 
 import org.junit.Assert;
 import org.junit.Before;

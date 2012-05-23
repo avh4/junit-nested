@@ -1,4 +1,4 @@
-package net.avh4.jrspec;
+package net.avh4.test.junit;
 
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
@@ -10,12 +10,12 @@ import org.junit.runners.model.InitializationError;
 import java.util.Arrays;
 import java.util.List;
 
-public class JrSpec extends Runner {
+public class Nested extends Runner {
     private final BlockJUnit4ClassRunner outerClassRunner;
     private final ParentRunner<Class<?>> innerClassesRunner;
     private final Class<?> testClass;
 
-    public JrSpec(final Class<?> testClass) throws InitializationError {
+    public Nested(final Class<?> testClass) throws InitializationError {
         BlockJUnit4ClassRunner outerClassRunner;
         try {
             outerClassRunner = new BlockJUnit4ClassRunner(testClass);

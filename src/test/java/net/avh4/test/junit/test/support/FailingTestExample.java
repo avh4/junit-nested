@@ -1,4 +1,4 @@
-package net.avh4.jrspec.test.support;
+package net.avh4.test.junit.test.support;
 
 import org.junit.Test;
 

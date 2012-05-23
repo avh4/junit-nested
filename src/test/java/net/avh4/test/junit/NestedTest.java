@@ -1,17 +1,17 @@
-package net.avh4.jrspec;
+package net.avh4.test.junit;
 
-import net.avh4.jrspec.test.support.PassingTestExample;
-import net.avh4.jrspec.test.support.PassingTestExampleWithNoOuterLevelTestMethods;
+import net.avh4.test.junit.test.support.PassingTestExample;
+import net.avh4.test.junit.test.support.PassingTestExampleWithNoOuterLevelTestMethods;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class JrSpecTest extends RunnerTestBase {
+public class NestedTest extends RunnerTestBase {
 
     @Before
     public void setup() throws Exception {
-        runner = new JrSpec(PassingTestExample.class);
+        runner = new Nested(PassingTestExample.class);
         super.setup();
     }
 
@@ -62,7 +62,7 @@ public class JrSpecTest extends RunnerTestBase {
     @Test
     public void shouldRunInnerSuitesWhenNoOuterTestMethodsExist()
             throws Exception {
-        runner = new JrSpec(PassingTestExampleWithNoOuterLevelTestMethods
+        runner = new Nested(PassingTestExampleWithNoOuterLevelTestMethods
                 .class);
         runner.run(notifier);
 
@@ -73,7 +73,7 @@ public class JrSpecTest extends RunnerTestBase {
     @Test
     public void shouldDescribeSelfWhenNoOuterTestMethodsExist()
             throws Exception {
-        runner = new JrSpec(PassingTestExampleWithNoOuterLevelTestMethods
+        runner = new Nested(PassingTestExampleWithNoOuterLevelTestMethods
                 .class);
         runner.run(notifier);
         description = runner.getDescription();

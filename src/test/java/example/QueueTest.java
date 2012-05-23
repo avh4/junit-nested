@@ -1,6 +1,6 @@
 package example;
 
-import net.avh4.jrspec.JrSpec;
+import net.avh4.test.junit.Nested;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +10,7 @@ import java.util.PriorityQueue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-@RunWith(JrSpec.class)
+@RunWith(Nested.class)
 public class QueueTest {
 
     protected PriorityQueue<String> subject;

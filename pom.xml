@@ -7,14 +7,14 @@
         <version>7</version>
     </parent>
 
-    <groupId>net.avh4.jrspec</groupId>
-    <artifactId>jrspec</artifactId>
+    <groupId>net.avh4.test</groupId>
+    <artifactId>junit-nested</artifactId>
     <version>0.0.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>jrspec</name>
-    <description>JrSpec - Testing tool for Java</description>
-    <url>https://github.com/avh4/jrspec</url>
+    <name>junit-nested</name>
+    <description>JUnit-Nested - Testing tool for Java</description>
+    <url>https://github.com/avh4/junit-nested</url>
     <licenses>
         <license>
             <name>The GNU General Public License v3.0</name>
@@ -24,9 +24,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/avh4/jrspec.git</connection>
-        <developerConnection>scm:git:git@github.com:avh4/jrspec.git</developerConnection>
-        <url>https://github.com/avh4/jrspec</url>
+        <connection>scm:git:https://github.com/avh4/junit-nested.git</connection>
+        <developerConnection>scm:git:git@github.com:avh4/junit-nested.git</developerConnection>
+        <url>https://github.com/avh4/junit-nested</url>
     </scm>
 
     <developers>
@@ -65,14 +65,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>net.avh4.jrspec.Main</mainClass>
-                            <packageName>net.avh4.jrspec</packageName>
-                        </manifest>
-                    </archive>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

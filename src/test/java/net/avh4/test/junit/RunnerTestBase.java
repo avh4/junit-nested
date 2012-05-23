@@ -1,4 +1,4 @@
-package net.avh4.jrspec;
+package net.avh4.test.junit;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
