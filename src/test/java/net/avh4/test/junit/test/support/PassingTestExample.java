@@ -1,9 +1,11 @@
 package net.avh4.test.junit.test.support;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 public class PassingTestExample {
     private boolean outerSetupWasCalled;
@@ -21,7 +23,8 @@ public class PassingTestExample {
         @Before
         public void setup() throws Exception {
             innerSetupWasCalled = true;
-            valueOf_outerSetupWasCalled_whenInnerSetupWasCalled = outerSetupWasCalled;
+            valueOf_outerSetupWasCalled_whenInnerSetupWasCalled =
+                    outerSetupWasCalled;
         }
 
         @Test
@@ -43,6 +46,12 @@ public class PassingTestExample {
         public void passesUnlessInnerBeforesWereCalledBeforeOuterBefores()
                 throws Exception {
             assertTrue(valueOf_outerSetupWasCalled_whenInnerSetupWasCalled);
+        }
+
+        @Test
+        @Ignore
+        public void ignored() throws Exception {
+            fail();
         }
     }
 

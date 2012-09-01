@@ -2,6 +2,7 @@ package example;
 
 import net.avh4.test.junit.Nested;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -9,6 +10,7 @@ import java.util.PriorityQueue;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.fail;
 
 @RunWith(Nested.class)
 public class QueueTest {
@@ -35,6 +37,17 @@ public class QueueTest {
         public void shouldHaveZeroItems() throws Exception {
             assertThat(subject.size(), is(0));
         }
+
+        @Test
+        @Ignore
+        public void shouldKneelWhenTheQueenPasses() throws Exception {
+            fail("This test should be ignored");
+        }
+
+        @Test(expected = NullPointerException.class)
+        public void shouldThrowWhenAddingNull() throws Exception {
+            subject.add(null);
+        }
     }
 
     public class WithOneItem {
@@ -60,5 +73,4 @@ public class QueueTest {
             }
         }
     }
-
 }
