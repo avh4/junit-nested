@@ -1,6 +1,5 @@
 package net.avh4.test.junit;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.internal.runners.statements.RunBefores;
 import org.junit.runner.notification.RunNotifier;
@@ -10,14 +9,14 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.junit.runners.model.TestClass;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
 import java.util.List;
 
 class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
 
+    private final InnerClassInstantiator instantiator =
+            new InnerClassInstantiator();
     private final TestClass outerTestClass;
-    private Object outerInstance;
 
     public InnerSpecMethodRunner(Class<?> testClass, Class<?> outerClass)
             throws InitializationError {
@@ -32,22 +31,8 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
 
     @Override
     protected Object createTest() throws Exception {
-        final Object outerClassInstance = createOuterClass();
-        outerInstance = outerClassInstance;
-
         final Class aClass = getTestClass().getJavaClass();
-        final Constructor<?>[] constructors = aClass.getConstructors();
-        Assert.assertEquals(1, constructors.length);
-        return constructors[0].newInstance(outerClassInstance);
-    }
-
-    private Object createOuterClass()
-            throws InvocationTargetException, IllegalAccessException,
-            InstantiationException {
-        final Constructor<?>[] constructors = outerTestClass.getJavaClass()
-                .getConstructors();
-        Assert.assertEquals(1, constructors.length);
-        return constructors[0].newInstance();
+        return instantiator.instantiate(aClass);
     }
 
     @Override
@@ -58,13 +43,23 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
     @Override
     protected Statement withBefores(FrameworkMethod method, Object target,
                                     Statement statement) {
-        final Statement innerBefores = super
-                .withBefores(method, target, statement);
-        final List<FrameworkMethod> outerBefores = outerTestClass
-                .getAnnotatedMethods(Before.class);
+        final Statement innerBefores =
+                super.withBefores(method, target, statement);
+        final List<FrameworkMethod> outerBefores =
+                outerTestClass.getAnnotatedMethods(Before.class);
+        Object outerInstance;
+        try {
+            Field f = target.getClass().getDeclaredField("this$0");
+            f.setAccessible(true);
+            outerInstance = f.get(target);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
         // Warning: this is not quite correct, and is not threadsafe.  We should really be making
         // sure that the outerInstance corresponds to this instance (target) of the test class.
-        return outerBefores.isEmpty() ? innerBefores : new RunBefores(
-                innerBefores, outerBefores, outerInstance);
+        return outerBefores.isEmpty() ? innerBefores :
+                new RunBefores(innerBefores, outerBefores, outerInstance);
     }
 }
