@@ -8,7 +8,7 @@ Add the following dependencies to your `pom.xml`:
   <dependency>
     <groupId>net.avh4.test</groupId>
     <artifactId>junit-nested</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <scope>test</scope>
   </dependency>
 ```
