@@ -2,7 +2,8 @@ package net.avh4.test.junit.test.support;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.fail;
+
 
 public class FailingTestExample {
 

@@ -13,10 +13,8 @@ import org.mockito.Mockito;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.matchers.JUnitMatchers.hasItem;
-import static org.junit.matchers.JUnitMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.internal.verification.VerificationModeFactory.atLeast;
 
@@ -92,7 +90,7 @@ public abstract class RunnerTestBase {
     protected Matcher<Description> hasChild(
             final Matcher<Description> childMatcher) {
         return new TypeSafeMatcher<Description>() {
-            public Matcher<Iterable<Description>> childrenMatcher =
+            public Matcher<Iterable<? super Description>> childrenMatcher =
                     hasItem(childMatcher);
 
             @Override
