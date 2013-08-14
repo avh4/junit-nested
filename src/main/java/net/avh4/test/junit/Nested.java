@@ -8,6 +8,7 @@ import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Nested extends Runner {
@@ -51,35 +52,33 @@ public class Nested extends Runner {
     }
 
     private static class InnerClassesRunner extends ParentRunner<Class<?>> {
-        private final Class<?> testClass;
+        private final HashMap<Class<?>, InnerSpecMethodRunner> runners =
+                new HashMap<>();
+        private final List<Class<?>> classChildren;
 
         public InnerClassesRunner(Class<?> testClass)
                 throws InitializationError {
             super(testClass);
-            this.testClass = testClass;
+
+            classChildren = Arrays.asList(testClass.getDeclaredClasses());
+            for (Class<?> aClass : classChildren) {
+                runners.put(aClass, new InnerSpecMethodRunner(aClass));
+            }
         }
 
         @Override
         protected List<Class<?>> getChildren() {
-            return Arrays.asList(testClass.getDeclaredClasses());
+            return classChildren;
         }
 
         @Override
         protected Description describeChild(Class<?> child) {
-            return createRunnerForChild(child).getDescription();
+            return runners.get(child).getDescription();
         }
 
         @Override
         protected void runChild(Class<?> child, RunNotifier notifier) {
-            createRunnerForChild(child).run(notifier);
-        }
-
-        private InnerSpecMethodRunner createRunnerForChild(Class<?> child) {
-            try {
-                return new InnerSpecMethodRunner(child);
-            } catch (InitializationError initializationError) {
-                throw new RuntimeException(initializationError);
-            }
+            runners.get(child).run(notifier);
         }
     }
 }
