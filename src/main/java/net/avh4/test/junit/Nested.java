@@ -31,7 +31,7 @@ public class Nested extends Runner {
     public Description getDescription() {
         Description suiteDescription;
         if (outerClassRunner != null) {
-        suiteDescription = outerClassRunner.getDescription();
+            suiteDescription = outerClassRunner.getDescription();
         } else {
             suiteDescription = Description.createSuiteDescription(testClass);
         }
@@ -76,7 +76,7 @@ public class Nested extends Runner {
 
         private InnerSpecMethodRunner createRunnerForChild(Class<?> child) {
             try {
-                return new InnerSpecMethodRunner(child, testClass);
+                return new InnerSpecMethodRunner(child);
             } catch (InitializationError initializationError) {
                 throw new RuntimeException(initializationError);
             }

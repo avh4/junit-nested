@@ -12,11 +12,9 @@ public class InnerSpecMethodRunnerTest extends RunnerTestBase {
 
     @Before
     public void setup() throws Exception {
-        runner = new InnerSpecMethodRunner(PassingTestExample.Inner1.class,
-                PassingTestExample.class);
+        runner = new InnerSpecMethodRunner(PassingTestExample.Inner1.class);
         runnerWithFailingTestExample =
-                new InnerSpecMethodRunner(FailingTestExample.Inner1.class,
-                        FailingTestExample.class);
+                new InnerSpecMethodRunner(FailingTestExample.Inner1.class);
         super.setup();
     }
 
