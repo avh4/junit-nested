@@ -1,9 +1,9 @@
 package net.avh4.test.junit.test.support;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -13,6 +13,29 @@ public class PassingTestExample {
     public static boolean outerAfterWasCalled;
     public static boolean innerAfterWasCalled;
     public static boolean valueOf_innerAfterWasCalled_whenOuterAfterWasCalled;
+    public static Counter innerRuleCounter = new Counter();
+    public static Counter outerRuleCounter = new Counter();
+    public static int valueOf_innerRuleCounter_whenOuterRuleStarted;
+    public static int valueOf_innerRuleCounter_whenOuterRuleEnded;
+
+    @Rule
+    public TestRule outerRule = new IncrementWhenCalled(outerRuleCounter);
+    @Rule
+    public TestRule checkInnerRuleState = new TestRule() {
+        @Override
+        public Statement apply(final Statement base, Description description) {
+            return new Statement() {
+                @Override
+                public void evaluate() throws Throwable {
+                    valueOf_innerRuleCounter_whenOuterRuleStarted =
+                            innerRuleCounter.count();
+                    base.evaluate();
+                    valueOf_innerRuleCounter_whenOuterRuleEnded =
+                            innerRuleCounter.count();
+                }
+            };
+        }
+    };
 
     @Before
     public void setup() throws Exception {
@@ -30,6 +53,9 @@ public class PassingTestExample {
 
         private boolean innerSetupWasCalled;
         private boolean valueOf_outerSetupWasCalled_whenInnerSetupWasCalled;
+
+        @Rule
+        public TestRule innerRule = new IncrementWhenCalled(innerRuleCounter);
 
         @Before
         public void setup() throws Exception {
@@ -69,6 +95,7 @@ public class PassingTestExample {
         public void ignored() throws Exception {
             fail();
         }
+
     }
 
     public class Inner2 {
@@ -83,4 +110,5 @@ public class PassingTestExample {
     public void test_1() throws Exception {
         //pass
     }
+
 }

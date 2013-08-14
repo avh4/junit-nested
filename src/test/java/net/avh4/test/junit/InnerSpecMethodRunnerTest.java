@@ -2,10 +2,13 @@ package net.avh4.test.junit;
 
 import net.avh4.test.junit.test.support.FailingTestExample;
 import net.avh4.test.junit.test.support.PassingTestExample;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.Runner;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class InnerSpecMethodRunnerTest extends RunnerTestBase {
@@ -75,5 +78,33 @@ public class InnerSpecMethodRunnerTest extends RunnerTestBase {
 
         assertTrue(
                 PassingTestExample.valueOf_innerAfterWasCalled_whenOuterAfterWasCalled);
+    }
+
+    @Test
+    public void shouldCallInnerRules() throws Exception {
+        PassingTestExample.innerRuleCounter.reset();
+        runner.run(notifier);
+
+        assertThat(PassingTestExample.innerRuleCounter.count(),
+                Matchers.greaterThan(0));
+    }
+
+    @Test
+    public void shouldCallOuterRules() throws Exception {
+        PassingTestExample.outerRuleCounter.reset();
+        runner.run(notifier);
+
+        assertThat(PassingTestExample.outerRuleCounter.count(),
+                Matchers.greaterThan(0));
+    }
+
+    @Test
+    public void shouldCallOuterRulesAroundInnerRules() throws Exception {
+        runner.run(notifier);
+
+        int change =
+                PassingTestExample.valueOf_innerRuleCounter_whenOuterRuleEnded -
+                        PassingTestExample.valueOf_innerRuleCounter_whenOuterRuleStarted;
+        assertThat(change, is(1));
     }
 }

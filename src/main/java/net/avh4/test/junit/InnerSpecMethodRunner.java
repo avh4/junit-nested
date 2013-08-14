@@ -2,8 +2,11 @@ package net.avh4.test.junit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.internal.runners.statements.RunAfters;
 import org.junit.internal.runners.statements.RunBefores;
+import org.junit.rules.RunRules;
+import org.junit.rules.TestRule;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -61,7 +64,20 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
         }
         statement = withOuterBefores(statement, outerInstance);
         statement = withOuterAfters(statement, outerInstance);
+        statement = withOuterRules(statement, outerInstance);
 
+        return statement;
+    }
+
+    private Statement withOuterRules(Statement statement,
+                                     Object outerInstance) {
+        List<TestRule> fieldRules = new TestClass(outerInstance.getClass())
+                .getAnnotatedFieldValues(outerInstance, Rule.class,
+                        TestRule.class);
+        if (!fieldRules.isEmpty()) {
+            statement = new RunRules(statement, fieldRules, null);
+            // TODO find an example where the Rule needs a Description
+        }
         return statement;
     }
 
