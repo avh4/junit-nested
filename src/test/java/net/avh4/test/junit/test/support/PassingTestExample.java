@@ -1,5 +1,6 @@
 package net.avh4.test.junit.test.support;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,10 +10,20 @@ import static org.junit.Assert.fail;
 
 public class PassingTestExample {
     private boolean outerSetupWasCalled;
+    public static boolean outerAfterWasCalled;
+    public static boolean innerAfterWasCalled;
+    public static boolean valueOf_innerAfterWasCalled_whenOuterAfterWasCalled;
 
     @Before
     public void setup() throws Exception {
         outerSetupWasCalled = true;
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        outerAfterWasCalled = true;
+        valueOf_innerAfterWasCalled_whenOuterAfterWasCalled =
+                innerAfterWasCalled;
     }
 
     public class Inner1 {
@@ -25,6 +36,11 @@ public class PassingTestExample {
             innerSetupWasCalled = true;
             valueOf_outerSetupWasCalled_whenInnerSetupWasCalled =
                     outerSetupWasCalled;
+        }
+
+        @After
+        public void tearDown() throws Exception {
+            innerAfterWasCalled = true;
         }
 
         @Test

@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.Runner;
 
+import static org.junit.Assert.assertTrue;
+
 public class InnerSpecMethodRunnerTest extends RunnerTestBase {
 
     private Runner runnerWithFailingTestExample;
@@ -34,7 +36,7 @@ public class InnerSpecMethodRunnerTest extends RunnerTestBase {
     }
 
     @Test
-    public void shouldCallOuterClassBeforeMethods() throws Exception {
+    public void shouldCallOuterBeforeMethods() throws Exception {
         runner.run(notifier);
 
         assertSuccessfulTestRunForDescription(
@@ -42,11 +44,36 @@ public class InnerSpecMethodRunnerTest extends RunnerTestBase {
     }
 
     @Test
-    public void shouldCallOuterClassBeforeMethodsBeforeInnerClassBeforeMethods()
+    public void shouldCallOuterBeforeMethodsBeforeInnerBeforeMethods()
             throws Exception {
         runner.run(notifier);
 
         assertSuccessfulTestRunForDescription(hasDisplayName(
                 "passesUnlessInnerBeforesWereCalledBeforeOuterBefores"));
+    }
+
+    @Test
+    public void shouldCallInnerAfterMethods() throws Exception {
+        PassingTestExample.innerAfterWasCalled = false;
+        runner.run(notifier);
+
+        assertTrue(PassingTestExample.innerAfterWasCalled);
+    }
+
+    @Test
+    public void shouldCallOuterAfterMethods() throws Exception {
+        PassingTestExample.outerAfterWasCalled = false;
+        runner.run(notifier);
+
+        assertTrue(PassingTestExample.outerAfterWasCalled);
+    }
+
+    @Test
+    public void shouldCallOuterAfterMethodsAfterInnerAfterMethods()
+            throws Exception {
+        runner.run(notifier);
+
+        assertTrue(
+                PassingTestExample.valueOf_innerAfterWasCalled_whenOuterAfterWasCalled);
     }
 }

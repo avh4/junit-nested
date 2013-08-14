@@ -1,6 +1,8 @@
 package net.avh4.test.junit;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.internal.runners.statements.RunAfters;
 import org.junit.internal.runners.statements.RunBefores;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -57,6 +59,26 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
+        statement = withOuterBefores(statement, outerInstance);
+        statement = withOuterAfters(statement, outerInstance);
+
+        return statement;
+    }
+
+    private Statement withOuterAfters(Statement statement,
+                                      Object outerInstance) {
+        final List<FrameworkMethod> outerAfters =
+                new TestClass(outerInstance.getClass())
+                        .getAnnotatedMethods(After.class);
+
+        if (!outerAfters.isEmpty()) {
+            statement = new RunAfters(statement, outerAfters, outerInstance);
+        }
+        return statement;
+    }
+
+    private Statement withOuterBefores(Statement statement,
+                                       Object outerInstance) {
         final List<FrameworkMethod> outerBefores =
                 new TestClass(outerInstance.getClass())
                         .getAnnotatedMethods(Before.class);
@@ -64,7 +86,6 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
         if (!outerBefores.isEmpty()) {
             statement = new RunBefores(statement, outerBefores, outerInstance);
         }
-
         return statement;
     }
 }
