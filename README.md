@@ -27,37 +27,38 @@ import net.avh4.test.junit.Nested;
 
 @RunWith(Nested.class)
 public class QueueTest {
-  private Queue<String> subject;
+    private Queue<String> subject;
 
-  @Before
-  public void setUp() {
-    subject = new Queue<String>();
-  }
-
-  @Test
-  public void push_shouldIncreaseCount() {
-    subject.push("Item");
-    assertThat(subject.count(), is(1));
-  }
-
-  public class WhenEmpty {
-    @Test(expected = NoSuchElementException.class)
-    public void pop_shouldThrow() {
-      subject.pop();
-    }
-  }
-
-  public class WithOneItem {
     @Before
     public void setUp() {
-      subject.push("First");
+        subject = new Queue<String>();
     }
 
     @Test
-    public void pop_shouldReturnTheItem() {
-      assertThat(subject.pop(), is("First"));
+    public void push_shouldIncreaseCount() {
+        subject.push("Item");
+        assertThat(subject.count(), is(1));
     }
-  }
+
+    public class WhenEmpty {
+        @Test(expected = NoSuchElementException.class)
+        public void pop_shouldThrow() {
+            subject.pop();
+        }
+    }
+
+    public class WithOneItem {
+        @Before
+        public void setUp() {
+            subject.push("First");
+        }
+
+        @Test
+        public void pop_shouldReturnTheItem() {
+            assertThat(subject.pop(), is("First"));
+        }
+    }
+}
 ```
 
 ## What works
@@ -75,6 +76,12 @@ public class QueueTest {
 * `@AfterClass` methods for outer classes
 * `@Rule` methods (however, @Rule fields do work) for outer classes
 * `@RunWith` on inner classes
+
+## License
+
+junit-nested is licensed under the [Common Public License version
+1.0](http://www.opensource.org/licenses/cpl1.0.txt).  If you have need of a
+different license, please contact me.
 
 ## References
 
