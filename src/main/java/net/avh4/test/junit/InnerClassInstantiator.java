@@ -6,7 +6,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-public class InnerClassInstantiator {
+/**
+ * Instantiates a class which may be an inner class of arbitrary depth,
+ * given that the class and all of its outer classes have an accessible
+ * default constructor.
+ */
+class InnerClassInstantiator {
     public <T> T instantiate(Class<T> aClass)
             throws IllegalAccessException, InvocationTargetException,
             InstantiationException {
@@ -30,7 +35,7 @@ public class InnerClassInstantiator {
     }
 
     private ArrayList<Class<?>> getNestedClasses(Class<?> aClass) {
-        ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+        ArrayList<Class<?>> classes = new ArrayList<>();
         do {
             classes.add(0, aClass);
             aClass = aClass.getDeclaringClass();

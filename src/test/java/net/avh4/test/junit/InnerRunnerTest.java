@@ -1,25 +1,19 @@
 package net.avh4.test.junit;
 
-import net.avh4.test.junit.test.support.FailingTestExample;
 import net.avh4.test.junit.test.support.PassingTestExample;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.Runner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-public class InnerSpecMethodRunnerTest extends RunnerTestBase {
-
-    private Runner runnerWithFailingTestExample;
+public class InnerRunnerTest extends RunnerTestBase {
 
     @Before
     public void setup() throws Exception {
-        runner = new InnerSpecMethodRunner(PassingTestExample.Inner1.class);
-        runnerWithFailingTestExample =
-                new InnerSpecMethodRunner(FailingTestExample.Inner1.class);
+        runner = new InnerRunner(PassingTestExample.Inner1.class);
         super.setup();
     }
 

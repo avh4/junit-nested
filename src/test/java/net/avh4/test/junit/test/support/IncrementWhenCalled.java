@@ -4,7 +4,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-class IncrementWhenCalled implements TestRule {
+public class IncrementWhenCalled implements TestRule {
     private final Counter counter;
 
     IncrementWhenCalled(Counter counter) {

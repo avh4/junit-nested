@@ -8,11 +8,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-public class InnerSpecMethodRunner_TopLevelTest extends RunnerTestBase {
+public class InnerRunner_TopLevelTest extends RunnerTestBase {
 
     @Before
     public void setup() throws Exception {
-        runner = new InnerSpecMethodRunner(PassingTestExample.class);
+        runner = new InnerRunner(PassingTestExample.class);
         super.setup();
     }
 

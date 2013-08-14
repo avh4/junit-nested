@@ -7,6 +7,7 @@ import org.junit.internal.runners.statements.RunAfters;
 import org.junit.internal.runners.statements.RunBefores;
 import org.junit.rules.RunRules;
 import org.junit.rules.TestRule;
+import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -17,14 +18,13 @@ import org.junit.runners.model.TestClass;
 import java.lang.reflect.Field;
 import java.util.List;
 
-class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
+class InnerRunner extends BlockJUnit4ClassRunner {
 
-    private final InnerClassInstantiator instantiator =
+    private static final InnerClassInstantiator instantiator =
             new InnerClassInstantiator();
     private Object test;
 
-    public InnerSpecMethodRunner(Class<?> testClass)
-            throws InitializationError {
+    public InnerRunner(Class<?> testClass) throws InitializationError {
         super(testClass);
     }
 
@@ -40,6 +40,23 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
             test = instantiator.instantiate(aClass);
         }
         return test;
+    }
+
+    @Override
+    public Description getDescription() {
+        Class<?> javaClass = getTestClass().getJavaClass();
+        Description superDescription = super.getDescription();
+        if (javaClass.getDeclaringClass() == null) {
+            return superDescription;
+        } else {
+            Description description = Description
+                    .createSuiteDescription(javaClass.getSimpleName());
+            for (Description childDescription : superDescription
+                    .getChildren()) {
+                description.addChild(childDescription);
+            }
+            return description;
+        }
     }
 
     @Override
@@ -79,7 +96,8 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError("Should have returned null above " +
+                    "(parentClasses == -1)");
         }
     }
 

@@ -23,14 +23,12 @@ public class NestedTest extends RunnerTestBase {
 
     @Test
     public void shouldDescribeFirstInnerSuite() throws Exception {
-        assertThat(description, hasChild(
-                hasDisplayName(PassingTestExample.Inner1.class.getName())));
+        assertThat(description, hasChild(hasDisplayName("Inner1")));
     }
 
     @Test
     public void shouldDescribeManyInnerSuites() throws Exception {
-        assertThat(description, hasChild(
-                hasDisplayName(PassingTestExample.Inner2.class.getName())));
+        assertThat(description, hasChild(hasDisplayName("Inner2")));
     }
 
     @Test
