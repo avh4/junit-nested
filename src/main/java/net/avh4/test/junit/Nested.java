@@ -24,7 +24,7 @@ public class Nested extends Runner {
         this.testClass = testClass;
 
         for (Class<?> aClass : testClass.getDeclaredClasses()) {
-            childRunners.add(new InnerSpecMethodRunner(aClass));
+            childRunners.add(new Nested(aClass));
         }
     }
 

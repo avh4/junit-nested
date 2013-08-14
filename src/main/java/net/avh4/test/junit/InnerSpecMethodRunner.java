@@ -52,21 +52,35 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
         Statement statement = super.methodBlock(method);
         assert test != null;
 
-        Object outerInstance;
+        Object instance = test;
+        while ((instance = nextParent(instance)) != null) {
+            statement = withOuterBefores(statement, instance);
+            statement = withOuterAfters(statement, instance);
+            statement = withOuterRules(statement, instance);
+        }
+
+        return statement;
+    }
+
+    private static Object nextParent(Object instance) {
+        int parentClasses = -1;
+        Class<?> cl = instance.getClass();
+        while (cl.getDeclaringClass() != null) {
+            parentClasses++;
+            cl = cl.getDeclaringClass();
+        }
+        if (parentClasses == -1) return null;
+
         try {
-            Field f = test.getClass().getDeclaredField("this$0");
+            Field f = instance.getClass()
+                    .getDeclaredField("this$" + parentClasses);
             f.setAccessible(true);
-            outerInstance = f.get(test);
+            return f.get(instance);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (NoSuchFieldException e) {
-            return statement;
+            throw new RuntimeException(e);
         }
-        statement = withOuterBefores(statement, outerInstance);
-        statement = withOuterAfters(statement, outerInstance);
-        statement = withOuterRules(statement, outerInstance);
-
-        return statement;
     }
 
     private Statement withOuterRules(Statement statement,
