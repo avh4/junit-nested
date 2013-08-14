@@ -79,8 +79,8 @@ public class QueueTest {
 
 ## License
 
-junit-nested is licensed under the [Common Public License version
-1.0](http://www.opensource.org/licenses/cpl1.0.txt).  If you have need of a
+junit-nested is licensed under the [Eclipse Public License version
+1.0](http://opensource.org/licenses/EPL-1.0).  If you have need of a
 different license, please contact me.
 
 ## References
