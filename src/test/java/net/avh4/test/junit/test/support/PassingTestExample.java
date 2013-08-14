@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class PassingTestExample {
-    private boolean outerSetupWasCalled;
+    public static boolean outerBeforeWasCalled;
     public static boolean outerAfterWasCalled;
     public static boolean innerAfterWasCalled;
     public static boolean valueOf_innerAfterWasCalled_whenOuterAfterWasCalled;
@@ -38,8 +38,8 @@ public class PassingTestExample {
     };
 
     @Before
-    public void setup() throws Exception {
-        outerSetupWasCalled = true;
+    public void setUp() throws Exception {
+        outerBeforeWasCalled = true;
     }
 
     @After
@@ -61,7 +61,7 @@ public class PassingTestExample {
         public void setup() throws Exception {
             innerSetupWasCalled = true;
             valueOf_outerSetupWasCalled_whenInnerSetupWasCalled =
-                    outerSetupWasCalled;
+                    outerBeforeWasCalled;
         }
 
         @After
@@ -81,7 +81,7 @@ public class PassingTestExample {
 
         @Test
         public void passesUnlessOuterBeforesWereNotCalled() throws Exception {
-            assertTrue(outerSetupWasCalled);
+            assertTrue(outerBeforeWasCalled);
         }
 
         @Test

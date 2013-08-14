@@ -11,13 +11,12 @@ import java.util.ArrayList;
 public class Nested extends Runner {
     private final BlockJUnit4ClassRunner outerClassRunner;
     private final Class<?> testClass;
-    private final ArrayList<InnerSpecMethodRunner> childRunners =
-            new ArrayList<>();
+    private final ArrayList<Runner> childRunners = new ArrayList<>();
 
     public Nested(final Class<?> testClass) throws InitializationError {
         BlockJUnit4ClassRunner outerClassRunner;
         try {
-            outerClassRunner = new BlockJUnit4ClassRunner(testClass);
+            outerClassRunner = new InnerSpecMethodRunner(testClass);
         } catch (Exception e) {
             outerClassRunner = null;
         }
@@ -37,7 +36,7 @@ public class Nested extends Runner {
         } else {
             suiteDescription = Description.createSuiteDescription(testClass);
         }
-        for (InnerSpecMethodRunner childRunner : childRunners) {
+        for (Runner childRunner : childRunners) {
             suiteDescription.addChild(childRunner.getDescription());
         }
         return suiteDescription;
@@ -48,7 +47,7 @@ public class Nested extends Runner {
         if (outerClassRunner != null) {
             outerClassRunner.run(notifier);
         }
-        for (InnerSpecMethodRunner childRunner : childRunners) {
+        for (Runner childRunner : childRunners) {
             childRunner.run(notifier);
         }
     }

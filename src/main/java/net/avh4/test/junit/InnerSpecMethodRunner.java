@@ -60,7 +60,7 @@ class InnerSpecMethodRunner extends BlockJUnit4ClassRunner {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
+            return statement;
         }
         statement = withOuterBefores(statement, outerInstance);
         statement = withOuterAfters(statement, outerInstance);
